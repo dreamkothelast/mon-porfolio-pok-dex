@@ -210,6 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         createParticle(e.clientX, e.clientY);
     });
+
+    // Initialize battle system handlers
+    initBattleHandlers();
 });
 
 // Particle effect function
@@ -746,9 +749,8 @@ function showBattleMenu(menuType) {
     }
 }
 
-// Initialize battle when entering battle scene
-document.addEventListener('DOMContentLoaded', () => {
-    // Previous initialization code...
+// Initialize battle system handlers
+function initBattleHandlers() {
 
     // Battle Main Menu handlers
     document.querySelectorAll('.battle-menu-btn').forEach(btn => {
@@ -865,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
+}
 
 // Console message for developers
 console.log('%c🎮 POKÉDEX PORTFOLIO CHARGÉ !', 'color: white; font-size: 20px; font-weight: bold; background: #CC0000; padding: 10px;');
