@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amine Djeghali - Portfolio</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gameboy-container">
+        <div class="screen">
+            <!-- Start Screen -->
+            <div class="scene active" id="start-screen">
+                <div class="title-screen">
+                    <h1 class="pixel-title">PORTFOLIO</h1>
+                    <h2 class="pixel-subtitle">VERSION ROUGE</h2>
+                    <div class="pokemon-sprite">
+                        <div class="player-sprite"></div>
+                    </div>
+                    <div class="press-start">APPUYER SUR START</div>
+                </div>
+            </div>
+
+            <!-- Main Menu -->
+            <div class="scene" id="main-menu">
+                <div class="dialogue-box">
+                    <p class="dialogue-text">Bonjour ! Bienvenue sur mon portfolio !</p>
+                    <p class="dialogue-text">Je suis Amine Djeghali, Product Owner & Product Manager !</p>
+                    <p class="dialogue-text">Que voulez-vous explorer ?</p>
+                </div>
+                <div class="menu-box">
+                    <div class="menu-option" data-scene="about">▶ À PROPOS</div>
+                    <div class="menu-option" data-scene="experience">▶ EXPÉRIENCE</div>
+                    <div class="menu-option" data-scene="skills">▶ COMPÉTENCES</div>
+                    <div class="menu-option" data-scene="battle">▶ COMBAT</div>
+                    <div class="menu-option" data-scene="contact">▶ CONTACT</div>
+                </div>
+            </div>
+
+            <!-- About Scene -->
+            <div class="scene" id="about">
+                <div class="location-header">LABORATOIRE DU PROF. CHEN</div>
+                <div class="about-content">
+                    <div class="about-sprite"></div>
+                    <div class="about-text">
+                        <div class="dialogue-box">
+                            <div class="npc-name">PROF. CHEN :</div>
+                            <p class="dialogue-text">Ah, tu veux en savoir plus sur Amine ?</p>
+                            <p class="dialogue-text">Product Owner depuis 3 ans avec un background développeur. Il a géré des produits B2B utilisés par des milliers de personnes.</p>
+                            <p class="dialogue-text">Son parcours a commencé en 2020 et il n'a jamais cessé de capturer des bugs depuis !</p>
+                            <p class="dialogue-text">📍 Basé à Montreuil (93100)</p>
+                            <p class="dialogue-text">🎓 Master en Product Management - HETIC</p>
+                        </div>
+                        <a href="Amine_Djeghali_CV_Product.pdf" download class="download-cv-btn">
+                            📄 TÉLÉCHARGER MON CV
+                        </a>
+                    </div>
+                </div>
+                <button class="back-button">◀ RETOUR</button>
+            </div>
+
+            <!-- Experience Scene (replaces Projects) -->
+            <div class="scene" id="experience">
+                <div class="location-header">POKÉMON CAPTURÉS</div>
+                <div class="projects-container">
+                    <div class="project-card">
+                        <div class="project-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/9.png');"></div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <span class="project-name">PRODUCT MANAGER</span>
+                                <span class="project-level">2022-2024</span>
+                            </div>
+                            <div class="project-stats">
+                                <p>ENTREPRISE : Ministère Écologie Énergie Territoires</p>
+                                <p>LOCALISATION : La Défense</p>
+                                <p>✓ Réalisé 30 entretiens utilisateurs pour comprendre les besoins</p>
+                                <p>✓ Organisé 5 ateliers collaboratifs (métier, design, dev)</p>
+                                <p>✓ Livré les nouvelles features avec 2 semaines d'avance</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/130.png');"></div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <span class="project-name">PRODUCT OWNER</span>
+                                <span class="project-level">2021-2023</span>
+                            </div>
+                            <div class="project-stats">
+                                <p>ENTREPRISE : Securitas Technology France</p>
+                                <p>LOCALISATION : Ivry-sur-Seine</p>
+                                <p>✓ Géré UNAVERSE (15k utilisateurs professionnels)</p>
+                                <p>✓ Écrit et priorisé 250+ user stories</p>
+                                <p>✓ Amélioré le NPS de 32 à 50</p>
+                                <p>✓ Réduit le churn client de 20%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/94.png');"></div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <span class="project-name">WEB DEVELOPER</span>
+                                <span class="project-level">2020-2021</span>
+                            </div>
+                            <div class="project-stats">
+                                <p>ENTREPRISE : IOTA SYSTEM</p>
+                                <p>LOCALISATION : Stains</p>
+                                <p>✓ Développé une app React Native (2000+ utilisateurs)</p>
+                                <p>✓ Réduit le temps de résolution des incidents de 25%</p>
+                                <p>✓ Maintenu les intégrations ERP</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="back-button">◀ RETOUR</button>
+            </div>
+
+            <!-- Skills Scene -->
+            <div class="scene" id="skills">
+                <div class="location-header">POKÉDEX - CAPACITÉS</div>
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <div class="category-title">
+                            <div class="category-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/1.png');"></div>
+                            <span>PRODUCT MANAGEMENT</span>
+                        </div>
+                        <div class="skill-list">
+                            <div class="skill-item">Gestion de backlog (Jira)</div>
+                            <div class="skill-item">User Stories</div>
+                            <div class="skill-item">Recherche utilisateur</div>
+                            <div class="skill-item">Analytics produit</div>
+                            <div class="skill-item">A/B Testing</div>
+                            <div class="skill-item">Amplitude / Mixpanel</div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">
+                            <div class="category-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/4.png');"></div>
+                            <span>MÉTHODES AGILES</span>
+                        </div>
+                        <div class="skill-list">
+                            <div class="skill-item">Scrum (PSM I)</div>
+                            <div class="skill-item">Animation d'ateliers</div>
+                            <div class="skill-item">Collaboration dev/design</div>
+                            <div class="skill-item">Sprint Planning</div>
+                            <div class="skill-item">Retrospectives</div>
+                            <div class="skill-item">Daily Stand-ups</div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">
+                            <div class="category-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/7.png');"></div>
+                            <span>TECHNIQUE</span>
+                        </div>
+                        <div class="skill-list">
+                            <div class="skill-item">React Native</div>
+                            <div class="skill-item">Node.js</div>
+                            <div class="skill-item">REST / GraphQL</div>
+                            <div class="skill-item">SQL</div>
+                            <div class="skill-item">Python</div>
+                            <div class="skill-item">Bubble.io</div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="category-title">
+                            <div class="category-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/25.png');"></div>
+                            <span>DATA & ANALYSE</span>
+                        </div>
+                        <div class="skill-list">
+                            <div class="skill-item">SQL (requêtes)</div>
+                            <div class="skill-item">Python (pandas)</div>
+                            <div class="skill-item">Power BI</div>
+                            <div class="skill-item">Tableau</div>
+                            <div class="skill-item">Nettoyage données</div>
+                            <div class="skill-item">Analytics produit</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="back-button">◀ RETOUR</button>
+            </div>
+
+            <!-- Battle Scene -->
+            <div class="scene" id="battle">
+                <div class="battle-screen">
+                    <div class="battle-header">COMBAT POKÉMON</div>
+
+                    <!-- Enemy Pokemon -->
+                    <div class="enemy-section">
+                        <div class="pokemon-info enemy-info">
+                            <div class="pokemon-name" id="enemy-name">MEWTWO</div>
+                            <div class="pokemon-level">Niv. 100</div>
+                            <div class="hp-bar-container">
+                                <div class="hp-bar" id="enemy-hp-bar" style="width: 100%"></div>
+                            </div>
+                            <div class="hp-text">HP: <span id="enemy-hp">100</span>/100</div>
+                        </div>
+                        <div class="pokemon-sprite-battle enemy-sprite" id="enemy-sprite"></div>
+                    </div>
+
+                    <!-- Player Pokemon -->
+                    <div class="player-section">
+                        <div class="pokemon-sprite-battle player-sprite-battle"></div>
+                        <div class="pokemon-info player-info">
+                            <div class="pokemon-name">AMINE</div>
+                            <div class="pokemon-level">Niv. 85</div>
+                            <div class="hp-bar-container">
+                                <div class="hp-bar player-hp" id="player-hp-bar" style="width: 100%"></div>
+                            </div>
+                            <div class="hp-text">HP: <span id="player-hp">100</span>/100</div>
+                        </div>
+                    </div>
+
+                    <!-- Battle Message -->
+                    <div class="battle-message" id="battle-message">
+                        Un MEWTWO sauvage apparaît ! Utilisez vos compétences pour le vaincre ou le capturer !
+                    </div>
+
+                    <!-- Battle Actions -->
+                    <div class="battle-actions" id="battle-actions">
+                        <div class="skill-grid">
+                            <button class="skill-btn" data-skill="scrum" data-damage="25">
+                                <span class="skill-name">SCRUM</span>
+                                <span class="skill-type">Agile</span>
+                            </button>
+                            <button class="skill-btn" data-skill="user-story" data-damage="20">
+                                <span class="skill-name">USER STORY</span>
+                                <span class="skill-type">Product</span>
+                            </button>
+                            <button class="skill-btn" data-skill="react" data-damage="30">
+                                <span class="skill-name">REACT</span>
+                                <span class="skill-type">Tech</span>
+                            </button>
+                            <button class="skill-btn" data-skill="sql" data-damage="22">
+                                <span class="skill-name">SQL</span>
+                                <span class="skill-type">Data</span>
+                            </button>
+                            <button class="skill-btn" data-skill="analytics" data-damage="28">
+                                <span class="skill-name">ANALYTICS</span>
+                                <span class="skill-type">Data</span>
+                            </button>
+                            <button class="skill-btn" data-skill="backlog" data-damage="18">
+                                <span class="skill-name">BACKLOG</span>
+                                <span class="skill-type">Product</span>
+                            </button>
+                        </div>
+                        <div class="battle-btn-row">
+                            <button class="catch-btn" id="catch-btn">
+                                <span>🎯 CAPTURER</span>
+                            </button>
+                            <button class="back-button battle-back">◀ RETOUR</button>
+                        </div>
+                    </div>
+
+                    <!-- Victory Screen -->
+                    <div class="victory-screen" id="victory-screen" style="display: none;">
+                        <div class="victory-content">
+                            <h2 class="victory-title">VICTOIRE !</h2>
+                            <p class="victory-text" id="victory-text"></p>
+                            <button class="restart-btn" id="restart-btn">RECOMMENCER</button>
+                            <button class="back-button">◀ MENU</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Scene -->
+            <div class="scene" id="contact">
+                <div class="location-header">CENTRE POKÉMON</div>
+                <div class="dialogue-box">
+                    <div class="npc-name">INFIRMIÈRE JOËLLE :</div>
+                    <p class="dialogue-text">Souhaitez-vous me contacter ?</p>
+                    <p class="dialogue-text">Voici mes coordonnées :</p>
+                </div>
+                <div class="contact-options">
+                    <a href="mailto:adjeghali@gmail.com" class="contact-item">
+                        <div class="contact-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/16.png');"></div>
+                        EMAIL
+                    </a>
+                    <a href="https://portfolio-pm-ad.netlify.app/" target="_blank" class="contact-item">
+                        <div class="contact-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/92.png');"></div>
+                        PORTFOLIO
+                    </a>
+                    <a href="https://www.linkedin.com/in/amine-djeghali-5ba493108/" target="_blank" class="contact-item">
+                        <div class="contact-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/82.png');"></div>
+                        LINKEDIN
+                    </a>
+                    <a href="tel:0615392017" class="contact-item">
+                        <div class="contact-sprite" style="background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/144.png');"></div>
+                        TÉLÉPHONE
+                    </a>
+                </div>
+                <div class="contact-info-box">
+                    <p>📍 93100 Montreuil, France</p>
+                    <p>📧 adjeghali@gmail.com</p>
+                    <p>📱 06 15 39 20 17</p>
+                </div>
+                <button class="back-button">◀ RETOUR</button>
+            </div>
+        </div>
+
+        <div class="pokeball-decoration">
+            <div class="pokeball"></div>
+            <div class="pokeball"></div>
+            <div class="pokeball"></div>
+        </div>
+
+        <div class="controls-hint">
+            <p>Utilisez la souris pour naviguer • Cliquez pour interagir</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
