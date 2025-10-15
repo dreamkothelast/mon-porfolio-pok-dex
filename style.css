@@ -434,7 +434,7 @@ body {
 
 /* Download CV Button */
 .download-cv-btn {
-    display: inline-block;
+    display: block;
     background: #CC0000;
     color: white;
     border: 3px solid #990000;
@@ -447,6 +447,7 @@ body {
     transition: all 0.2s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    width: 100%;
 }
 
 .download-cv-btn:hover {
@@ -524,12 +525,14 @@ body {
     border: 3px solid #990000;
     padding: 15px 30px;
     font-family: 'Press Start 2P', cursive;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     cursor: pointer;
     border-radius: 8px;
     margin-top: 20px;
     transition: all 0.2s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-align: center;
 }
 
 .back-button:hover {
@@ -590,7 +593,7 @@ body {
     }
 
     .gameboy-container {
-        padding: 10px;
+        padding: 15px;
         min-height: auto;
     }
 
@@ -624,15 +627,17 @@ body {
     }
 
     .scene {
-        padding: 50px 15px 15px 15px;
+        padding: 50px 20px 20px 20px;
     }
 
     .pixel-title {
         font-size: 1.5rem;
+        margin-bottom: 15px;
     }
 
     .pixel-subtitle {
         font-size: 0.75rem;
+        margin-bottom: 30px;
     }
 
     .player-sprite {
@@ -641,10 +646,16 @@ body {
         margin: 20px auto;
     }
 
+    .dialogue-box {
+        margin-bottom: 25px;
+        padding: 15px;
+    }
+
     .dialogue-text,
     .menu-option {
         font-size: 0.6rem;
-        padding: 12px;
+        padding: 15px;
+        margin: 8px 0;
     }
 
     .project-name,
@@ -654,39 +665,58 @@ body {
 
     .skill-list {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .skill-item {
+        padding: 15px;
     }
 
     .contact-options {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .contact-item {
+        padding: 20px;
     }
 
     .project-card {
         flex-direction: column;
         text-align: center;
-        padding: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
     }
 
     .project-sprite {
         width: 60px;
         height: 60px;
+        margin-bottom: 10px;
     }
 
     .about-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 15px;
+        padding: 20px;
     }
 
     .about-sprite {
         width: 100px;
         height: 100px;
+        margin-bottom: 15px;
     }
 
     .download-cv-btn {
         width: 100%;
-        font-size: 0.55rem;
-        padding: 12px 15px;
+        font-size: 0.6rem;
+        padding: 15px;
+    }
+
+    .back-button {
+        padding: 15px;
+        font-size: 0.6rem;
+        margin-top: 25px;
     }
 
     .pokeball-decoration {
@@ -702,6 +732,25 @@ body {
     .pokeball::after {
         width: 6px;
         height: 6px;
+    }
+
+    .pokedex-entry {
+        margin-bottom: 25px;
+        padding: 20px;
+    }
+
+    .pokedex-header {
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .location-header {
+        margin-bottom: 25px;
+    }
+
+    .projects-container,
+    .skills-container {
+        padding-right: 0;
     }
 }
 
@@ -745,6 +794,192 @@ body {
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating Back Button for Pokedex */
+#pokedex .back-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: auto;
+    padding: 15px 25px;
+    z-index: 100;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Adventure Scene Styles */
+.badges-display {
+    background: white;
+    border: 4px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.badge-title {
+    color: #CC0000;
+    font-size: 0.75rem;
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #e0e0e0;
+}
+
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.badge-slot {
+    background: #f5f5f5;
+    border: 3px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    transition: all 0.3s;
+    opacity: 0.4;
+}
+
+.badge-slot.earned {
+    opacity: 1;
+    background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 100%);
+    border-color: #fbc02d;
+    animation: badgeEarned 0.5s ease;
+}
+
+@keyframes badgeEarned {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.badge-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.badge-name {
+    color: #666;
+    font-size: 0.5rem;
+}
+
+.badge-slot.earned .badge-name {
+    color: #f57f17;
+    font-weight: bold;
+}
+
+/* Gym List */
+.gym-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.gym-card {
+    background: white;
+    border: 4px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.gym-card.locked {
+    opacity: 0.5;
+    filter: grayscale(80%);
+}
+
+.gym-card:not(.locked):hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.gym-card.final-boss {
+    background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 50%, #fff9c4 100%);
+    border-color: #f57f17;
+    animation: pulse 2s infinite;
+}
+
+.gym-sprite {
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+
+.gym-info {
+    flex: 1;
+}
+
+.gym-name {
+    color: #CC0000;
+    font-size: 0.75rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.gym-card.final-boss .gym-name {
+    color: #f57f17;
+    font-size: 0.8rem;
+}
+
+.gym-type {
+    color: #666;
+    font-size: 0.6rem;
+    margin-bottom: 8px;
+}
+
+.gym-description {
+    color: #333;
+    font-size: 0.55rem;
+    line-height: 1.6;
+}
+
+.challenge-btn {
+    background: #CC0000;
+    color: white;
+    border: 3px solid #990000;
+    padding: 12px 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.6rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.challenge-btn:hover:not(:disabled) {
+    background: #990000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.gym-card.locked .challenge-btn {
+    background: #999;
+    border-color: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.gym-card.final-boss .challenge-btn {
+    background: linear-gradient(135deg, #f57f17 0%, #ff6f00 100%);
+    border-color: #e65100;
+    animation: pulse 2s infinite;
+}
+
+.gym-card.final-boss .challenge-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ff6f00 0%, #f57f17 100%);
 }
 
 .pokedex-header {
@@ -805,22 +1040,20 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 70px 20px 20px;
+    justify-content: flex-start;
+    padding: 20px;
+    gap: 12px;
 }
 
 .battle-header {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    right: 20px;
     background: #CC0000;
     color: white;
-    padding: 12px;
+    padding: 10px;
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     border-radius: 8px;
     border: 3px solid #990000;
+    margin-bottom: 15px;
 }
 
 /* Battle Field */
@@ -828,14 +1061,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .player-section {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     flex-direction: row-reverse;
 }
 
@@ -924,21 +1157,121 @@ body {
     background: white;
     border: 4px solid #333;
     border-radius: 8px;
-    padding: 20px;
-    margin: 20px 0;
+    padding: 15px;
+    margin: 0 0 12px 0;
     color: #333;
     font-size: 0.65rem;
     line-height: 1.8;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    min-height: 80px;
+    min-height: 70px;
 }
 
 .battle-actions {
     background: white;
     border: 4px solid #333;
     border-radius: 8px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Battle Main Menu */
+.battle-main-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.battle-menu-btn {
+    background: linear-gradient(135deg, #ffebeb 0%, #ffd6d6 100%);
+    border: 3px solid #CC0000;
+    border-radius: 8px;
+    padding: 18px 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.65rem;
+    color: #CC0000;
+    text-align: center;
+}
+
+.battle-menu-btn:hover {
+    background: #CC0000;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.battle-menu-btn:active {
+    transform: translateY(0);
+}
+
+/* Battle Submenu */
+.battle-submenu {
+    animation: slideIn 0.2s ease-in;
+}
+
+/* Item Grid */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.item-btn {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 3px solid #1976d2;
+    border-radius: 8px;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+.item-btn:hover {
+    background: #1976d2;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.item-btn:hover .item-name,
+.item-btn:hover .item-count {
+    color: white;
+}
+
+.item-name {
+    color: #1976d2;
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+
+.item-count {
+    color: #666;
+    font-size: 0.5rem;
+}
+
+/* Battle Back Button */
+.battle-back-btn {
+    background: #666;
+    color: white;
+    border: 3px solid #444;
+    padding: 12px 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.6rem;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.battle-back-btn:hover {
+    background: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .skill-grid {
@@ -1090,42 +1423,207 @@ body {
 
 /* Battle Responsive */
 @media (max-width: 768px) {
-    .skill-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .pokemon-sprite-battle {
-        width: 100px;
-        height: 100px;
-    }
-
-    .pokemon-info {
-        min-width: 180px;
-        padding: 10px;
+    .battle-screen {
+        padding: 15px;
+        gap: 10px;
     }
 
     .battle-header {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .battle-main-menu {
+        gap: 10px;
+    }
+
+    .battle-menu-btn {
+        padding: 15px 12px;
+        font-size: 0.6rem;
+    }
+
+    .battle-back-btn {
+        padding: 10px 15px;
+        font-size: 0.55rem;
     }
 
     .enemy-section, .player-section {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
+        margin-bottom: 10px;
     }
 
     .player-section {
         flex-direction: column-reverse;
     }
-}
 
-@media (max-width: 480px) {
-    .skill-grid {
-        grid-template-columns: 1fr;
+    .pokemon-sprite-battle {
+        width: 80px;
+        height: 80px;
     }
 
     .pokemon-info {
-        min-width: 150px;
+        min-width: 100%;
+        padding: 10px;
+    }
+
+    .pokemon-name {
+        font-size: 0.65rem;
+    }
+
+    .pokemon-level {
+        font-size: 0.55rem;
+    }
+
+    .hp-bar-container {
+        height: 10px;
+    }
+
+    .battle-message {
+        padding: 12px;
+        margin: 10px 0;
+        min-height: 60px;
+        font-size: 0.6rem;
+        line-height: 1.6;
+    }
+
+    .battle-actions {
+        padding: 12px;
+    }
+
+    .skill-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .skill-btn {
+        padding: 10px 8px;
+    }
+
+    .skill-name {
+        font-size: 0.55rem;
+    }
+
+    .skill-type {
+        font-size: 0.45rem;
+    }
+
+    .catch-btn {
+        padding: 12px;
+        font-size: 0.6rem;
+    }
+
+    .battle-back {
+        padding: 12px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #pokedex .back-button {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 20px;
+        font-size: 0.55rem;
+    }
+
+    .badge-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .gym-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .gym-sprite {
+        width: 60px;
+        height: 60px;
+    }
+
+    .challenge-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .battle-screen {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .battle-header {
+        font-size: 0.55rem;
+        padding: 6px;
+        margin-bottom: 8px;
+    }
+
+    .battle-main-menu {
+        gap: 8px;
+    }
+
+    .battle-menu-btn {
+        padding: 12px 10px;
+        font-size: 0.55rem;
+    }
+
+    .battle-back-btn {
+        padding: 8px 12px;
+        font-size: 0.5rem;
+    }
+
+    .pokemon-sprite-battle {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pokemon-info {
+        min-width: 100%;
+        padding: 8px;
+    }
+
+    .battle-message {
+        padding: 10px;
+        margin: 8px 0;
+        min-height: 50px;
+        font-size: 0.55rem;
+    }
+
+    .battle-actions {
+        padding: 10px;
+    }
+
+    .skill-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+
+    .skill-btn {
+        padding: 8px 6px;
+    }
+
+    .skill-name {
+        font-size: 0.5rem;
+    }
+
+    .skill-type {
+        font-size: 0.4rem;
+    }
+
+    .catch-btn {
+        padding: 10px;
+        font-size: 0.55rem;
+    }
+
+    .battle-back {
+        padding: 10px;
+        font-size: 0.55rem;
     }
 
     .victory-content {

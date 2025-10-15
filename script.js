@@ -278,21 +278,253 @@ window.showScene = function(sceneName) {
 let playerHP = 100;
 let enemyHP = 100;
 let battleInProgress = false;
+let currentGym = null;
+let isAdventureBattle = false;
 
-function initBattle() {
+// Gym Leaders Data
+const gymLeaders = [
+    {
+        name: 'PIERRE',
+        title: 'MAÎTRE SCRUM',
+        pokemon: 'ALAKAZAM',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/65.png',
+        level: 15,
+        hp: 80,
+        badge: 'scrum',
+        attacks: [
+            { name: 'DAILY STANDUP', damage: 12 },
+            { name: 'SPRINT PLANNING', damage: 15 },
+            { name: 'RETROSPECTIVE', damage: 10 }
+        ]
+    },
+    {
+        name: 'ONDINE',
+        title: 'MAÎTRE USER STORY',
+        pokemon: 'GOLDUCK',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/55.png',
+        level: 20,
+        hp: 90,
+        badge: 'story',
+        attacks: [
+            { name: 'USER INTERVIEW', damage: 14 },
+            { name: 'ACCEPTANCE CRITERIA', damage: 16 },
+            { name: 'STORY MAPPING', damage: 12 }
+        ]
+    },
+    {
+        name: 'MAJOR BOB',
+        title: 'MAÎTRE TECH',
+        pokemon: 'RAICHU',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/26.png',
+        level: 25,
+        hp: 100,
+        badge: 'tech',
+        attacks: [
+            { name: 'REACT HOOK', damage: 18 },
+            { name: 'API REST', damage: 16 },
+            { name: 'DEBUGGING', damage: 14 }
+        ]
+    },
+    {
+        name: 'ERIKA',
+        title: 'MAÎTRE DATA',
+        pokemon: 'ARCANINE',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/59.png',
+        level: 30,
+        hp: 110,
+        badge: 'data',
+        attacks: [
+            { name: 'SQL QUERY', damage: 17 },
+            { name: 'DATA CLEANING', damage: 15 },
+            { name: 'JOIN COMPLEX', damage: 19 }
+        ]
+    },
+    {
+        name: 'KOGA',
+        title: 'MAÎTRE ANALYTICS',
+        pokemon: 'SNORLAX',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/143.png',
+        level: 35,
+        hp: 120,
+        badge: 'analytics',
+        attacks: [
+            { name: 'FUNNEL ANALYSIS', damage: 20 },
+            { name: 'A/B TESTING', damage: 18 },
+            { name: 'COHORT STUDY', damage: 16 }
+        ]
+    },
+    {
+        name: 'MORGANE',
+        title: 'MAÎTRE BACKLOG',
+        pokemon: 'HITMONLEE',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/106.png',
+        level: 40,
+        hp: 130,
+        badge: 'backlog',
+        attacks: [
+            { name: 'PRIORISATION', damage: 19 },
+            { name: 'REFINEMENT', damage: 21 },
+            { name: 'MOSCOW METHOD', damage: 17 }
+        ]
+    },
+    {
+        name: 'AUGUSTE',
+        title: 'MAÎTRE DESIGN',
+        pokemon: 'NINETALES',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/38.png',
+        level: 45,
+        hp: 140,
+        badge: 'design',
+        attacks: [
+            { name: 'WIREFRAME', damage: 20 },
+            { name: 'PROTOTYPE', damage: 22 },
+            { name: 'USER TESTING', damage: 18 }
+        ]
+    },
+    {
+        name: 'GIOVANNI',
+        title: 'MAÎTRE LEADERSHIP',
+        pokemon: 'GYARADOS',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/130.png',
+        level: 50,
+        hp: 150,
+        badge: 'leader',
+        attacks: [
+            { name: 'COACHING', damage: 21 },
+            { name: 'VISION SHARING', damage: 23 },
+            { name: 'ROADMAP', damage: 25 }
+        ]
+    },
+    {
+        name: 'CHEN',
+        title: 'PRODUCT MASTER',
+        pokemon: 'MEWTWO',
+        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/150.png',
+        level: 100,
+        hp: 200,
+        badge: null,
+        attacks: [
+            { name: 'PSYCHO', damage: 25 },
+            { name: 'CONFUSION', damage: 28 },
+            { name: 'PRESCIENCE', damage: 30 }
+        ]
+    }
+];
+
+// Load badges from localStorage
+function loadBadges() {
+    const saved = localStorage.getItem('pokemonBadges');
+    return saved ? JSON.parse(saved) : [];
+}
+
+// Save badges to localStorage
+function saveBadges(badges) {
+    localStorage.setItem('pokemonBadges', JSON.stringify(badges));
+}
+
+// Update badges display
+function updateBadgesDisplay() {
+    const earnedBadges = loadBadges();
+    earnedBadges.forEach(badge => {
+        const badgeSlot = document.querySelector(`.badge-slot[data-badge="${badge}"]`);
+        if (badgeSlot) {
+            badgeSlot.classList.add('earned');
+        }
+    });
+}
+
+// Update gym cards locked state
+function updateGymCards() {
+    const earnedBadges = loadBadges();
+    const gymCards = document.querySelectorAll('.gym-card');
+
+    gymCards.forEach((card, index) => {
+        const challengeBtn = card.querySelector('.challenge-btn');
+
+        // First gym is always unlocked
+        if (index === 0) {
+            card.classList.remove('locked');
+            challengeBtn.disabled = false;
+        }
+        // Check if previous gym was beaten
+        else if (index > 0 && earnedBadges.includes(gymLeaders[index - 1].badge)) {
+            card.classList.remove('locked');
+            challengeBtn.disabled = false;
+        }
+        // Check if this gym was already beaten
+        if (gymLeaders[index].badge && earnedBadges.includes(gymLeaders[index].badge)) {
+            const gymType = card.querySelector('.gym-type');
+            gymType.textContent = '✓ BADGE OBTENU ' + gymType.textContent.split(' ').pop();
+        }
+    });
+}
+
+function initBattle(gymIndex = null) {
     playerHP = 100;
-    enemyHP = 100;
     battleInProgress = true;
+
+    // Setup enemy based on gym or free battle
+    if (gymIndex !== null) {
+        isAdventureBattle = true;
+        currentGym = gymLeaders[gymIndex];
+        enemyHP = currentGym.hp;
+
+        // Update enemy display
+        document.getElementById('enemy-name').textContent = currentGym.pokemon;
+        document.querySelector('.pokemon-level').textContent = `Niv. ${currentGym.level}`;
+        document.getElementById('enemy-sprite').style.backgroundImage = `url('${currentGym.sprite}')`;
+
+        // Update battle header
+        document.querySelector('.battle-header').textContent = `ARÈNE - ${currentGym.title}`;
+
+        // Update HP display max
+        document.querySelector('#enemy-hp').parentElement.innerHTML = `HP: <span id="enemy-hp">${enemyHP}</span>/${currentGym.hp}`;
+
+        // Hide pokeball button in adventure mode
+        const pokeballBtn = document.getElementById('pokeball-btn');
+        if (pokeballBtn) {
+            pokeballBtn.style.display = 'none';
+        }
+    } else {
+        isAdventureBattle = false;
+        currentGym = null;
+        enemyHP = 100;
+
+        // Reset to default Mewtwo
+        document.getElementById('enemy-name').textContent = 'MEWTWO';
+        document.querySelector('.pokemon-level').textContent = 'Niv. 100';
+        document.getElementById('enemy-sprite').style.backgroundImage = `url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/150.png')`;
+
+        // Reset battle header
+        document.querySelector('.battle-header').textContent = 'COMBAT POKÉMON';
+
+        // Reset HP display
+        document.querySelector('#enemy-hp').parentElement.innerHTML = 'HP: <span id="enemy-hp">100</span>/100';
+
+        // Show pokeball button in free battle
+        const pokeballBtn = document.getElementById('pokeball-btn');
+        if (pokeballBtn) {
+            pokeballBtn.style.display = 'flex';
+        }
+    }
 
     updateHP('player', playerHP);
     updateHP('enemy', enemyHP);
 
-    document.getElementById('battle-message').textContent = 'Un MEWTWO sauvage apparaît ! Utilisez vos compétences pour le vaincre ou le capturer !';
+    const message = isAdventureBattle
+        ? `${currentGym.title} ${currentGym.name} vous défie ! Que voulez-vous faire ?`
+        : 'Un MEWTWO sauvage apparaît ! Que voulez-vous faire ?';
+
+    document.getElementById('battle-message').textContent = message;
     document.getElementById('victory-screen').style.display = 'none';
 
     // Enable all buttons
     document.querySelectorAll('.skill-btn').forEach(btn => btn.disabled = false);
-    document.getElementById('catch-btn').disabled = false;
+    document.querySelectorAll('.battle-menu-btn').forEach(btn => btn.disabled = false);
+    const pokeballBtn = document.getElementById('pokeball-btn');
+    if (pokeballBtn) {
+        pokeballBtn.disabled = false;
+    }
 }
 
 function updateHP(type, value) {
@@ -300,7 +532,14 @@ function updateHP(type, value) {
     const hpBar = document.getElementById(`${type}-hp-bar`);
 
     hpSpan.textContent = Math.max(0, value);
-    const percentage = (value / 100) * 100;
+
+    // Calculate percentage based on max HP
+    let maxHP = 100;
+    if (type === 'enemy' && currentGym) {
+        maxHP = currentGym.hp;
+    }
+
+    const percentage = (value / maxHP) * 100;
     hpBar.style.width = `${Math.max(0, percentage)}%`;
 
     // Change color based on HP
@@ -330,7 +569,7 @@ function playerAttack(skillName, damage) {
 
     // Disable buttons during attack
     document.querySelectorAll('.skill-btn').forEach(btn => btn.disabled = true);
-    document.getElementById('catch-btn').disabled = true;
+    document.querySelectorAll('.battle-menu-btn').forEach(btn => btn.disabled = true);
 
     displayMessage(`Vous utilisez ${skillName} !`);
 
@@ -353,15 +592,17 @@ function playerAttack(skillName, damage) {
 function enemyAttack() {
     if (!battleInProgress) return;
 
-    const attacks = [
+    // Use gym leader attacks or default Mewtwo attacks
+    const attacks = currentGym ? currentGym.attacks : [
         { name: 'PSYCHO', damage: 15 },
         { name: 'CONFUSION', damage: 18 },
         { name: 'PRESCIENCE', damage: 22 }
     ];
 
     const attack = attacks[Math.floor(Math.random() * attacks.length)];
+    const enemyName = currentGym ? currentGym.pokemon : 'MEWTWO';
 
-    displayMessage(`MEWTWO utilise ${attack.name} !`);
+    displayMessage(`${enemyName} utilise ${attack.name} !`);
     playSound(800, 0.15);
 
     setTimeout(() => {
@@ -374,10 +615,15 @@ function enemyAttack() {
             endBattle(false, false);
         } else {
             setTimeout(() => {
-                displayMessage('À votre tour ! Choisissez une compétence !');
-                // Re-enable buttons
+                displayMessage('À votre tour ! Que voulez-vous faire ?');
+                // Re-enable buttons and return to main menu
                 document.querySelectorAll('.skill-btn').forEach(btn => btn.disabled = false);
-                document.getElementById('catch-btn').disabled = false;
+                document.querySelectorAll('.battle-menu-btn').forEach(btn => btn.disabled = false);
+                const pokeballBtn = document.getElementById('pokeball-btn');
+                if (pokeballBtn) {
+                    pokeballBtn.disabled = false;
+                }
+                showBattleMenu('main');
             }, 1000);
         }
     }, 1500);
@@ -390,7 +636,11 @@ function tryCatch() {
 
     // Disable buttons
     document.querySelectorAll('.skill-btn').forEach(btn => btn.disabled = true);
-    document.getElementById('catch-btn').disabled = true;
+    document.querySelectorAll('.battle-menu-btn').forEach(btn => btn.disabled = true);
+    const pokeballBtn = document.getElementById('pokeball-btn');
+    if (pokeballBtn) {
+        pokeballBtn.disabled = true;
+    }
 
     const catchChance = (100 - enemyHP) / 100;
     const random = Math.random();
@@ -422,7 +672,29 @@ function endBattle(playerWon, caught) {
     const victoryText = document.getElementById('victory-text');
 
     if (playerWon) {
-        if (caught) {
+        if (isAdventureBattle) {
+            // Adventure mode victory
+            playSound(523, 0.15);
+            setTimeout(() => playSound(659, 0.15), 150);
+            setTimeout(() => playSound(784, 0.15), 300);
+            setTimeout(() => playSound(1047, 0.4), 450);
+
+            if (currentGym.badge) {
+                // Regular gym leader
+                victoryText.textContent = `Félicitations ! Vous avez vaincu ${currentGym.title} ${currentGym.name} ! Vous obtenez le badge ${currentGym.badge.toUpperCase()} !`;
+
+                // Award badge
+                const earnedBadges = loadBadges();
+                if (!earnedBadges.includes(currentGym.badge)) {
+                    earnedBadges.push(currentGym.badge);
+                    saveBadges(earnedBadges);
+                }
+            } else {
+                // Final boss (Product Master)
+                victoryText.textContent = '🏆 FÉLICITATIONS ! Vous êtes maintenant PRODUCT MASTER ! Vous avez maîtrisé toutes les compétences essentielles du Product Management ! 🏆';
+            }
+        } else if (caught) {
+            // Free battle - caught
             playSound(523, 0.15);
             setTimeout(() => playSound(659, 0.15), 150);
             setTimeout(() => playSound(784, 0.15), 300);
@@ -430,26 +702,74 @@ function endBattle(playerWon, caught) {
 
             victoryText.textContent = 'Félicitations ! Vous avez capturé MEWTWO ! Vos compétences en Product Management sont impressionnantes !';
         } else {
+            // Free battle - defeated
             playSound(523, 0.2);
             setTimeout(() => playSound(659, 0.2), 200);
 
             victoryText.textContent = 'Vous avez vaincu MEWTWO ! Vos compétences techniques et méthodologiques font la différence !';
         }
     } else {
+        // Lost battle
         playSound(200, 0.3);
         setTimeout(() => playSound(150, 0.3), 300);
 
-        victoryText.textContent = 'Vous avez été mis K.O... Réessayez en utilisant une meilleure stratégie !';
+        if (isAdventureBattle) {
+            victoryText.textContent = `${currentGym.title} ${currentGym.name} vous a battu... Réessayez en utilisant une meilleure stratégie !`;
+        } else {
+            victoryText.textContent = 'Vous avez été mis K.O... Réessayez en utilisant une meilleure stratégie !';
+        }
     }
 
     victoryScreen.style.display = 'flex';
+}
+
+// Battle Menu System
+function showBattleMenu(menuType) {
+    // Hide all submenus
+    document.querySelectorAll('.battle-submenu').forEach(menu => {
+        menu.style.display = 'none';
+    });
+
+    // Hide main menu
+    const mainMenu = document.getElementById('battle-main-menu');
+
+    if (menuType === 'main') {
+        mainMenu.style.display = 'grid';
+    } else {
+        mainMenu.style.display = 'none';
+
+        if (menuType === 'attack') {
+            document.getElementById('attack-menu').style.display = 'block';
+        } else if (menuType === 'item') {
+            document.getElementById('item-menu').style.display = 'block';
+        }
+    }
 }
 
 // Initialize battle when entering battle scene
 document.addEventListener('DOMContentLoaded', () => {
     // Previous initialization code...
 
-    // Battle button handlers
+    // Battle Main Menu handlers
+    document.querySelectorAll('.battle-menu-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const action = btn.getAttribute('data-action');
+            playSelectSound();
+
+            if (action === 'attack') {
+                showBattleMenu('attack');
+            } else if (action === 'item') {
+                showBattleMenu('item');
+            } else if (action === 'pokemon') {
+                displayMessage('Vous n\'avez pas d\'autre Pokémon !');
+            } else if (action === 'run') {
+                playBackSound();
+                showScene('main-menu');
+            }
+        });
+    });
+
+    // Attack submenu handlers
     document.querySelectorAll('.skill-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const skillName = btn.querySelector('.skill-name').textContent;
@@ -458,27 +778,93 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const catchBtn = document.getElementById('catch-btn');
-    if (catchBtn) {
-        catchBtn.addEventListener('click', tryCatch);
+    // Item submenu handlers
+    const pokeballBtn = document.getElementById('pokeball-btn');
+    if (pokeballBtn) {
+        pokeballBtn.addEventListener('click', () => {
+            tryCatch();
+        });
     }
+
+    // Back to main menu buttons
+    document.getElementById('back-to-main').addEventListener('click', () => {
+        playBackSound();
+        showBattleMenu('main');
+    });
+
+    document.getElementById('back-to-main-item').addEventListener('click', () => {
+        playBackSound();
+        showBattleMenu('main');
+    });
 
     const restartBtn = document.getElementById('restart-btn');
     if (restartBtn) {
         restartBtn.addEventListener('click', () => {
             playSelectSound();
-            initBattle();
+            if (isAdventureBattle && currentGym) {
+                // Find gym index
+                const gymIndex = gymLeaders.indexOf(currentGym);
+                initBattle(gymIndex);
+            } else {
+                initBattle();
+            }
+            showBattleMenu('main');
         });
     }
+
+    // Gym challenge buttons
+    document.querySelectorAll('.challenge-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const gymCard = btn.closest('.gym-card');
+            const gymIndex = parseInt(gymCard.getAttribute('data-gym'));
+
+            if (!gymCard.classList.contains('locked')) {
+                playStartSound();
+                showScene('battle');
+                setTimeout(() => {
+                    initBattle(gymIndex);
+                    showBattleMenu('main');
+                }, 300);
+            }
+        });
+    });
 
     // Initialize battle when scene is shown
     const originalShowSceneFunc = showScene;
     showScene = function(sceneName) {
         originalShowSceneFunc(sceneName);
         if (sceneName === 'battle') {
-            setTimeout(() => initBattle(), 300);
+            // Only init free battle if not coming from adventure
+            if (!isAdventureBattle) {
+                setTimeout(() => {
+                    initBattle();
+                    showBattleMenu('main');
+                }, 300);
+            }
+        } else if (sceneName === 'adventure') {
+            // Update badges and gym cards when entering adventure
+            updateBadgesDisplay();
+            updateGymCards();
         }
     };
+
+    // Override victory screen back button for adventure mode
+    const victoryBackButtons = document.querySelectorAll('.victory-screen .back-button');
+    victoryBackButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            playBackSound();
+            if (isAdventureBattle) {
+                showScene('adventure');
+                // Refresh badges and gym cards
+                setTimeout(() => {
+                    updateBadgesDisplay();
+                    updateGymCards();
+                }, 100);
+            } else {
+                showScene('main-menu');
+            }
+        });
+    });
 });
 
 // Console message for developers
